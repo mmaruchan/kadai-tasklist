@@ -34,8 +34,15 @@ class TasksController extends Controller
     // tasks/にアクセスされたときの処理
     public function store(Request $request)
     {
+        // バリデーション
+        $request->validate([
+            'status' => 'required|max:10',  //10文字まで
+            'content' => 'required|max:255',
+        ]);
+        
         // たすくを作成
         $task = new Task;
+        $task->status = $request->status;    //すてーたす追加        
         $task->content = $request->content;
         $task->save();
 
@@ -70,9 +77,16 @@ class TasksController extends Controller
     // messages/idにアクセスされたときの処理
     public function update(Request $request, $id)
     {
+        // バリデーション
+        $request->validate([
+            'status' => 'required|max:10',  //10文字まで
+            'content' => 'required|max:255',
+        ]);
+        
         // idの値でたすくを検索して取得
         $task = Task::findOrFail($id);
         // たすくを更新
+        $task->status = $request->status;    //すてーたす追加        
         $task->content = $request->content;
         $task->save();
 
