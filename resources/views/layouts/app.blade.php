@@ -2,30 +2,20 @@
 <html lang="ja">
     <head>
         <meta charset="utf-8">
-        <title></title>
+        <title>Microposts</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     </head>
 
     <body>
-        <header class="mb-4">
-            <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
-                {{-- トップページへのリンク --}}
-                <a class="navbar-brand" href="/">たすくりすと</a>
 
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-bar">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="nav-bar">
-                    <ul class="navbar-nav mr-auto"></ul>
-                    <ul class="navbar-nav">
-                    </ul>
-                </div>
-            </nav>
-        </header>
+        {{-- ナビゲーションバー --}}
+        @include('commons.navbar')
 
         <div class="container">
+            {{-- エラーメッセージ --}}
+            @include('commons.error_messages')
+
             @yield('content')
         </div>
 
