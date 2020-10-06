@@ -25,10 +25,7 @@ class TasksController extends Controller
 
         } 
         
-        else {
-            return view('welcome');    
-        }
-
+            return view('welcome');
     }
 
     // tasks/createにアクセスされときの処理
@@ -68,9 +65,14 @@ class TasksController extends Controller
         $task = Task::find($id);
 
         // ビューでそれを表示
+        if (\Auth::id() === $task->user_id){
         return view('tasks.show', [
             'task' => $task,
         ]);
+        }
+        
+        return redirect('/');
+        
     }
 
     // tasks/editにアクセスされたときの処理
@@ -80,9 +82,14 @@ class TasksController extends Controller
         $task = Task::find($id);
         
         // メッセージ編集ビューでそれを表示
+        if (\Auth::id() === $task->user_id){
         return view('tasks.edit', [
             'task' => $task,
         ]);
+        }
+        
+        return redirect('/');
+        
     }
 
     //
@@ -97,11 +104,13 @@ class TasksController extends Controller
 
         // idの値でたすくを検索して取得
         $task = Task::find($id);
+        if (\Auth::id() === $task->user_id){
         $task->user_id = $request->user()->id;
         // たすくを更新
         $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
+        }
 
         // トップページへリダイレクトさせる
         return redirect('/');
@@ -113,7 +122,10 @@ class TasksController extends Controller
         // idの値でたすくを検索して取得
         $task = Task::find($id);
         // タスクを削除
-        $task->delete();
+        // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を削除
+        if (\Auth::id() === $task->user_id) {
+            $task->delete();    
+        }
 
         // トップページへリダイレクトさせる
         return redirect('/');

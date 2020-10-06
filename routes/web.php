@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'TasksController@index');
+Route::get('/', 'TasksController@index', ['only' => ['store', 'destroy']]);
 
 Route::resource('tasks', 'TasksController');
 
